@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<title>PL4GU3 - EPK Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{font-family:'Space Grotesk',sans-serif;background:#0A0A0A;color:white}</style>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+<div class="max-w-6xl mx-auto">
+<h1 class="text-4xl font-bold text-[#00FF88] tracking-widest">PL4GU3</h1>
+<p class="text-gray-400 mb-8">EPK Builder for Independent Artists</p>
+<div class="grid md:grid-cols-2 gap-8">
+<div class="bg-zinc-900 p-6 rounded-xl border border-zinc-800">
+<h2 class="text-xl mb-4 font-bold">Build Your EPK</h2>
+<input id="name" placeholder="Artist Name" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<input id="handle" placeholder="Handle (e.g. yoda)" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<input id="city" placeholder="City" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<select id="genre" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<option>Amapiano</option><option>Hip-hop</option><option>Afrobeat</option><option>House</option><option>R&B</option>
+</select>
+<textarea id="bio" placeholder="Bio" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700 h-24"></textarea>
+<input id="spotify" placeholder="Spotify Link" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<input id="youtube" placeholder="YouTube Link" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<input id="insta" placeholder="Instagram Link" class="w-full mb-3 p-3 bg-black rounded border border-zinc-700">
+<button onclick="updatePreview()" class="w-full bg-[#00FF88] text-black font-bold p-3 rounded">Update Preview & Save</button>
+<p id="saveMsg" class="mt-3 text-sm text-[#00FF88] hidden">Saved! Public: /p/<span id="linkHandle"></span></p>
+</div>
+<div id="preview" class="bg-zinc-900 p-6 rounded-xl border border-[#00FF88]/30">
+<div class="h-48 bg-gradient-to-br from-zinc-800 to-black rounded-lg mb-4 flex items-center justify-center">
+<span id="p-initial" class="text-5xl font-bold text-[#00FF88]">?</span>
+</div>
+<h2 id="p-name" class="text-3xl font-bold">Your Artist Name</h2>
+<p id="p-meta" class="text-[#00FF88]">City • Genre</p>
+<p id="p-bio" class="mt-4 text-gray-300">Your bio will appear here...</p>
+<div class="flex gap-3 mt-6">
+<a id="p-spotify" href="#" target="_blank" class="text-xs bg-zinc-800 px-3 py-2 rounded">Spotify</a>
+<a id="p-youtube" href="#" target="_blank" class="text-xs bg-zinc-800 px-3 py-2 rounded">YouTube</a>
+<a id="p-insta" href="#" target="_blank" class="text-xs bg-zinc-800 px-3 py-2 rounded">Instagram</a>
+</div>
+<p class="mt-8 text-xs text-gray-500">pl4gu3.vercel.app/p/<span id="p-handle">handle</span></p>
+</div>
+</div>
+</div>
+<script>
+function updatePreview(){
+const name=document.getElementById('name').value||'Your Artist Name';
+const handle=document.getElementById('handle').value||'handle';
+const city=document.getElementById('city').value||'City';
+const genre=document.getElementById('genre').value;
+const bio=document.getElementById('bio').value||'Your bio will appear here...';
+document.getElementById('p-name').innerText=name;
+document.getElementById('p-initial').innerText=name[0];
+document.getElementById('p-meta').innerText=city+' • '+genre;
+document.getElementById('p-bio').innerText=bio;
+document.getElementById('p-handle').innerText=handle;
+document.getElementById('linkHandle').innerText=handle;
+document.getElementById('p-spotify').href=document.getElementById('spotify').value||'#';
+document.getElementById('p-youtube').href=document.getElementById('youtube').value||'#';
+document.getElementById('p-insta').href=document.getElementById('insta').value||'#';
+document.getElementById('saveMsg').classList.remove('hidden');
+localStorage.setItem('pl4gu3_'+handle, JSON.stringify({name,handle,city,genre,bio}));
+}
+</script>
+</body>
+</html>
