@@ -1,2 +1,2 @@
-# PL4GUE3
+# PL4GU3
 For independent artists
