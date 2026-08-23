@@ -3,69 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PL4GU3 - EPK Builder</title>
+<title>PL4GU3 V3</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
-<style>body{font-family:Inter;background:#050505;color:white}h1{font-family:Space Grotesk}</style>
 </head>
-<body class="min-h-screen">
-<header class="sticky top-0 z-20 bg-black/80 backdrop-blur border-b border-zinc-800">
-<div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-<div class="flex items-center gap-8">
-<h1 class="text-3xl font-bold text-[#00FF88] tracking-widest">PL4GU3</h1>
-<nav class="flex gap-2">
-<button id="nav-builder" onclick="setView('builder')" class="px-5 py-2 rounded-full bg-[#00FF88] text-black font-bold text-sm">Builder</button>
-<button id="nav-public" onclick="setView('public')" class="px-5 py-2 rounded-full bg-zinc-900 text-zinc-400 text-sm">Public EPK</button>
-<button onclick="loadRoster()" class="px-5 py-2 rounded-full bg-zinc-900 text-zinc-400 text-sm">Roster</button>
-</nav></div></div>
+<body style="background:#050505;color:#fff;font-family:Inter">
+<header style="background:#000;border-bottom:1px solid #222;padding:12px">
+<div style="display:flex;justify-content:space-between;align-items:center">
+<h1 style="color:#00FF88;font-weight:bold">PL4GU3</h1>
+<div><span id="authUser" style="font-size:12px;color:#666"></span>
+<button id="authBtn" onclick="toggleAuth()" style="background:#fff;color:#000;padding:8px 16px;border-radius:20px;font-weight:bold;font-size:12px">Login</button>
+<button onclick="loadRoster()" style="background:#222;color:#999;padding:8px 16px;border-radius:20px;font-size:12px;margin-left:6px">Roster</button></div>
+</div>
 </header>
-<div class="max-w-7xl mx-auto px-4 py-6 grid lg:grid-cols-2 gap-6">
-<div class="bg-[#111] rounded-[20px] border border-zinc-800 overflow-hidden">
-<div class="flex bg-[#0A0A0A] border-b border-zinc-800 p-2 gap-2">
-<button onclick="setTab('profile')" id="tab-profile" class="flex-1 py-2.5 rounded-full bg-white text-black font-bold text-sm">Profile</button>
-<button onclick="setTab('music')" id="tab-music" class="flex-1 py-2.5 rounded-full text-zinc-500 text-sm">Music</button>
-<button onclick="setTab('links')" id="tab-links" class="flex-1 py-2.5 rounded-full text-zinc-500 text-sm">Links</button>
-<button onclick="setTab('press')" id="tab-press" class="flex-1 py-2.5 rounded-full text-zinc-500 text-sm">Press</button>
+<div id="authModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:50;align-items:center;justify-content:center">
+<div style="background:#111;border:1px solid #333;padding:20px;border-radius:16px;width:90%;max-width:320px">
+<h3>Artist Login</h3>
+<input id="authEmail" placeholder="Email" style="width:100%;padding:10px;margin:8px 0;background:#000;border:1px solid #333;border-radius:8px;color:#fff">
+<input id="authPass" type="password" placeholder="Password" style="width:100%;padding:10px;margin:8px 0;background:#000;border:1px solid #333;border-radius:8px;color:#fff">
+<button onclick="doSignup()" style="width:48%;padding:10px;background:#222;border-radius:8px">Sign Up</button>
+<button onclick="doLogin()" style="width:48%;padding:10px;background:#00FF88;color:#000;border-radius:8px;font-weight:bold">Login</button>
+<button onclick="toggleAuth()" style="width:100%;margin-top:10px;color:#666;font-size:12px">Close</button>
+<p id="authMsg" style="color:#00FF88;font-size:12px;margin-top:10px"></p>
 </div>
-<div class="p-6">
-<div class="mb-6 p-4 bg-[#00FF88]/10 border border-[#00FF88]/20 rounded-xl">
-<p class="text-xs text-[#00FF88] font-bold mb-2">Paste Supabase Keys (once) - Settings → API</p>
-<div class="flex gap-2">
-<input id="supaUrl" placeholder="https://xxx.supabase.co" class="flex-1 p-2.5 bg-black rounded-lg border border-zinc-700 text-xs">
-<input id="supaKey" placeholder="anon key eyJ..." class="flex-1 p-2.5 bg-black rounded-lg border border-zinc-700 text-xs">
-<button onclick="saveKeys()" class="px-4 py-2 bg-[#00FF88] text-black rounded-lg text-xs font-bold">Save</button>
 </div>
-<p id="keyStatus" class="text-[10px] text-zinc-500 mt-2">Keys saved in browser</p>
+<div style="padding:20px;max-width:900px;margin:0 auto">
+<div style="background:#00FF88/10;border:1px solid #00FF88/30;padding:12px;border-radius:12px;margin-bottom:16px">
+<p style="font-size:11px;color:#00FF88;font-weight:bold">PASTE REAL SUPABASE URL (https://clyygth...supabase.co) + anon eyJ... from Settings → API → Legacy keys</p>
+<div style="display:flex;gap:8px;margin-top:8px"><input id="supaUrl" placeholder="https://clyygth...supabase.co" style="flex:1;padding:8px;background:#000;border:1px solid #333;border-radius:8px;font-size:12px"><input id="supaKey" placeholder="eyJhbGcOi..." style="flex:1;padding:8px;background:#000;border:1px solid #333;border-radius:8px;font-size:12px"><button onclick="saveKeys()" style="background:#00FF88;color:#000;padding:8px 12px;border-radius:8px;font-weight:bold;font-size:12px">Save</button></div>
+<p id="keyStatus" style="font-size:10px;color:#666;margin-top:6px">Must be real URL, not pl4gu3.supabase.co</p>
 </div>
-<div id="panel-profile">
-<input id="name" placeholder="Artist Name *" class="w-full mb-3 p-3.5 bg-black rounded-xl border border-zinc-700">
-<input id="handle" placeholder="Handle * (yoda)" class="w-full mb-3 p-3.5 bg-black rounded-xl border border-zinc-700">
-<div class="grid grid-cols-2 gap-3"><input id="city" placeholder="City" class="p-3.5 bg-black rounded-xl border border-zinc-700"><select id="genre" class="p-3.5 bg-black rounded-xl border border-zinc-700"><option>Amapiano</option><option>Hip-hop</option><option>Afrobeat</option><option>House</option><option>R&B</option></select></div>
-<textarea id="bio" placeholder="Bio..." class="w-full mt-3 p-3.5 bg-black rounded-xl border border-zinc-700 h-28"></textarea>
-</div>
-<div id="panel-music" class="hidden"><div id="tracksList" class="space-y-2 mb-4"></div><div class="p-4 bg-black rounded-xl border border-zinc-800"><input id="trackTitle" placeholder="Track Title" class="w-full mb-2 p-3 bg-zinc-900 rounded-lg border border-zinc-700 text-sm"><input id="trackLink" placeholder="Spotify / YouTube Link" class="w-full mb-3 p-3 bg-zinc-900 rounded-lg border border-zinc-700 text-sm"><button onclick="addTrack()" class="w-full py-2.5 bg-zinc-800 rounded-lg text-sm font-bold">+ Add to Playlist</button></div></div>
-<div id="panel-links" class="hidden space-y-3"><input id="spotify" placeholder="Spotify Artist Link" class="w-full p-3.5 bg-black rounded-xl border border-zinc-700"><input id="youtube" placeholder="YouTube Link" class="w-full p-3.5 bg-black rounded-xl border border-zinc-700"><input id="insta" placeholder="Instagram Link" class="w-full p-3.5 bg-black rounded-xl border border-zinc-700"><input id="tiktok" placeholder="TikTok Link" class="w-full p-3.5 bg-black rounded-xl border border-zinc-700"><input id="pressLink" placeholder="Press Kit Drive Link" class="w-full p-3.5 bg-black rounded-xl border border-zinc-700"></div>
-<div id="panel-press" class="hidden"><textarea id="pressBio" placeholder="Press Bio / Achievements..." class="w-full p-3.5 bg-black rounded-xl border border-zinc-700 h-48"></textarea></div>
-<button onclick="saveEPK()" class="mt-8 w-full bg-[#00FF88] text-black font-bold p-4 rounded-xl">Save & Publish Live →</button>
-<p id="saveMsg" class="hidden mt-4 p-3 bg-[#00FF88]/10 border border-[#00FF88]/30 rounded-xl text-sm text-center text-[#00FF88]"></p>
-</div></div>
-<div class="h-fit"><div class="bg-[#111] rounded-[20px] border border-zinc-800 overflow-hidden"><div class="h-52 bg-gradient-to-br from-zinc-800 to-black flex items-center justify-center"><span id="p-initial" class="text-7xl font-bold text-[#00FF88]">?</span></div><div class="p-6"><h2 id="p-name" class="text-3xl font-bold">Your Artist Name</h2><p id="p-meta" class="text-[#00FF88] text-sm">City • Genre</p><p id="p-bio" class="mt-4 text-zinc-300 text-sm">Your bio...</p><div id="p-tracks" class="mt-6 space-y-2"></div><div class="flex gap-2 mt-6"><a id="p-spotify" target="_blank" class="text-xs px-4 py-2 bg-zinc-900 rounded-full">Spotify</a><a id="p-youtube" target="_blank" class="text-xs px-4 py-2 bg-zinc-900 rounded-full">YouTube</a><a id="p-insta" target="_blank" class="text-xs px-4 py-2 bg-zinc-900 rounded-full">Instagram</a></div><p class="mt-6 text-xs text-gray-500">Live:?p=<span id="p-handle">handle</span></p></div></div><div id="rosterBox" class="hidden mt-6 bg-[#111] rounded-[20px] border border-zinc-800 p-6"><h3 class="font-bold mb-4">Roster</h3><div id="rosterList" class="space-y-2 text-sm"></div></div></div>
+<input id="name" placeholder="Artist Name * Chaody" style="width:100%;padding:12px;background:#111;border:1px solid #333;border-radius:12px;margin-bottom:10px">
+<input id="handle" placeholder="Handle * yoda" style="width:100%;padding:12px;background:#111;border:1px solid #333;border-radius:12px;margin-bottom:10px">
+<div style="display:flex;gap:10px"><input id="city" placeholder="Johannesburg" style="flex:1;padding:12px;background:#111;border:1px solid #333;border-radius:12px"><select id="genre" style="flex:1;padding:12px;background:#111;border:1px solid #333;border-radius:12px"><option>Hip-hop</option><option>Amapiano</option><option>Afrobeat</option></select></div>
+<textarea id="bio" placeholder="Bio test" style="width:100%;padding:12px;background:#111;border:1px solid #333;border-radius:12px;margin-top:10px;height:80px"></textarea>
+<div style="margin-top:16px;background:#000;padding:12px;border-radius:12px;border:1px solid #222"><p>Playlist</p><input id="trackTitle" placeholder="My Name" style="width:100%;padding:10px;background:#111;border:1px solid #333;border-radius:8px;margin:6px 0"><input id="trackLink" placeholder="Spotify link" style="width:100%;padding:10px;background:#111;border:1px solid #333;border-radius:8px"><button onclick="addTrack()" style="width:100%;margin-top:8px;padding:10px;background:#222;border-radius:8px">+ Add to Playlist</button><div id="tracksList" style="margin-top:10px"></div></div>
+<input id="spotify" placeholder="Spotify link" style="width:100%;padding:12px;background:#111;border:1px solid #333;border-radius:12px;margin-top:10px">
+<button onclick="saveEPK()" style="width:100%;margin-top:20px;padding:16px;background:#00FF88;color:#000;font-weight:bold;border-radius:12px">Save & Publish Live →</button>
+<p id="saveMsg" style="display:none;margin-top:12px;padding:12px;background:#00FF88/10;border:1px solid #00FF88/30;border-radius:12px;text-align:center;color:#00FF88"></p>
+<div id="rosterBox" style="display:none;margin-top:20px;background:#111;border:1px solid #333;padding:16px;border-radius:16px"><h3>Roster</h3><div id="rosterList"></div></div>
 </div>
 <script>
-let tracks=[],supa=null;
-function getKeys(){return{url:localStorage.getItem('pl4gu3_supa_url')||document.getElementById('supaUrl').value,key:localStorage.getItem('pl4gu3_supa_key')||document.getElementById('supaKey').value}}
-function initSupa(){const{url,key}=getKeys();if(url&&key&&url.startsWith('https')){try{supa=window.supabase.createClient(url,key);document.getElementById('keyStatus').innerText='✅ Connected';document.getElementById('keyStatus').className='text-[10px] text-[#00FF88] mt-2'}catch(e){}}}
-function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();if(!url||!key){alert('Paste both');return}localStorage.setItem('pl4gu3_supa_url',url);localStorage.setItem('pl4gu3_supa_key',key);initSupa();alert('Keys saved!')}
-window.addEventListener('load',()=>{const url=localStorage.getItem('pl4gu3_supa_url');const key=localStorage.getItem('pl4gu3_supa_key');if(url)document.getElementById('supaUrl').value=url;if(key)document.getElementById('supaKey').value=key;initSupa();const params=new URLSearchParams(window.location.search);const h=params.get('p');if(h){loadPublic(h)}});
-function setTab(t){['profile','music','links','press'].forEach(x=>{document.getElementById('panel-'+x).classList.add('hidden');document.getElementById('tab-'+x).className='flex-1 py-2.5 rounded-full text-zinc-500 text-sm'});document.getElementById('panel-'+t).classList.remove('hidden');document.getElementById('tab-'+t).className='flex-1 py-2.5 rounded-full bg-white text-black font-bold text-sm'}
-function setView(v){document.getElementById('nav-builder').className=v==='builder'?'px-5 py-2 rounded-full bg-[#00FF88] text-black font-bold text-sm':'px-5 py-2 rounded-full bg-zinc-900 text-zinc-400 text-sm';document.getElementById('nav-public').className=v==='public'?'px-5 py-2 rounded-full bg-[#00FF88] text-black font-bold text-sm':'px-5 py-2 rounded-full bg-zinc-900 text-zinc-400 text-sm'}
-function addTrack(){const title=document.getElementById('trackTitle').value.trim();const link=document.getElementById('trackLink').value.trim();if(!title)return;tracks.push({title,link});document.getElementById('trackTitle').value='';document.getElementById('trackLink').value='';renderTracks()}
-function renderTracks(){document.getElementById('tracksList').innerHTML=tracks.map((t,i)=>`<div class='flex justify-between bg-black p-3 rounded-xl border border-zinc-800 text-sm'><span>🎵 ${t.title}</span><button onclick='tracks.splice(${i},1);renderTracks()'>✕</button></div>`).join('');document.getElementById('p-tracks').innerHTML=tracks.length?`<p class='text-xs text-zinc-500 mb-2'>PLAYLIST</p>`+tracks.map(t=>`<div class='flex justify-between bg-black p-3 rounded-xl border border-zinc-800'><span class='text-sm'>${t.title}</span><a href='${t.link}' target='_blank' class='text-xs bg-[#00FF88] text-black px-3 py-1 rounded-full font-bold'>Play</a></div>`).join(''):''}
-async function saveEPK(){const handle=document.getElementById('handle').value.trim().toLowerCase().replace(/\s+/g,'');const name=document.getElementById('name').value.trim();if(!handle||!name){alert('Add Name + Handle');setTab('profile');return}if(!supa){alert('Paste Supabase keys at top first');return}const payload={handle,name,city:document.getElementById('city').value,genre:document.getElementById('genre').value,bio:document.getElementById('bio').value,spotify:document.getElementById('spotify').value,youtube:document.getElementById('youtube').value,instagram:document.getElementById('insta').value,tracks:tracks,press_link:document.getElementById('pressLink').value,press_bio:document.getElementById('pressBio').value,tiktok:document.getElementById('tiktok').value};const{error}=await supa.from('artists').upsert(payload,{onConflict:'handle'});if(error){alert(error.message);return}const link=`${window.location.origin}/?p=${handle}`;document.getElementById('saveMsg').innerHTML=`✅ LIVE! <br><a href='${link}' target='_blank' class='underline font-bold'>${link}</a>`;document.getElementById('saveMsg').classList.remove('hidden');document.getElementById('p-handle').innerText=handle}
-async function loadPublic(handle){if(!supa)initSupa();if(!supa)return;const{data}=await supa.from('artists').select('*').eq('handle',handle).single();if(!data)return;document.getElementById('p-name').innerText=data.name;document.getElementById('p-initial').innerText=data.name[0];document.getElementById('p-meta').innerText=(data.city||'')+' • '+(data.genre||'');document.getElementById('p-bio').innerText=data.bio||'';document.getElementById('p-handle').innerText=data.handle;tracks=data.tracks||[];renderTracks()}
-async function loadRoster(){if(!supa)initSupa();if(!supa){alert('Add keys first');return}const{data}=await supa.from('artists').select('handle,name,city').limit(20);document.getElementById('rosterBox').classList.remove('hidden');document.getElementById('rosterList').innerHTML=data.map(a=>`<div class='flex justify-between bg-black p-3 rounded-xl border border-zinc-800'><span>${a.name}</span><a href='?p=${a.handle}' class='text-[#00FF88]'>/${a.handle}</a></div>`).join('')}
-['name','city','genre','bio','handle'].forEach(id=>{document.getElementById(id)?.addEventListener('input',()=>{document.getElementById('p-name').innerText=document.getElementById('name').value||'Your Artist Name';document.getElementById('p-initial').innerText=(document.getElementById('name').value||'?')[0].toUpperCase();document.getElementById('p-meta').innerText=(document.getElementById('city').value||'City')+' • '+document.getElementById('genre').value;document.getElementById('p-bio').innerText=document.getElementById('bio').value||'Your bio...';document.getElementById('p-handle').innerText=document.getElementById('handle').value||'handle'})});
+let tracks=[],supa=null,currentUser=null;
+function getKeys(){return{url:localStorage.getItem('pl4gu3_url')||document.getElementById('supaUrl').value,key:localStorage.getItem('pl4gu3_key')||document.getElementById('supaKey').value}}
+function initSupa(){const {url,key}=getKeys();if(url&&key&&url.includes('supabase.co')){try{supa=window.supabase.createClient(url,key);document.getElementById('keyStatus').innerText='✅ Connected to '+url;checkUser()}catch(e){document.getElementById('keyStatus').innerText='❌ '+e.message}}}
+function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();if(!url.includes('supabase.co')||!key.startsWith('eyJ')){alert('Paste REAL URL https://clyyg...supabase.co and anon key eyJ... from Settings → API → Legacy keys. You typed pl4gu3.supabase.co which is wrong');return}localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved! Now try Save & Publish')}
+window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
+function toggleAuth(){const m=document.getElementById('authModal');m.style.display=m.style.display==='none'?'flex':'none'}
+async function checkUser(){if(!supa)return;const {data}=await supa.auth.getUser();if(data.user){currentUser=data.user;document.getElementById('authUser').innerText=data.user.email;document.getElementById('authBtn').innerText='Logout';document.getElementById('authBtn').onclick=doLogout}else{currentUser=null}}
+async function doSignup(){const e=document.getElementById('authEmail').value;const p=document.getElementById('authPass').value;const {error}=await supa.auth.signUp({email:e,password:p});document.getElementById('authMsg').innerText=error?error.message:'✅ Check email then Login';checkUser()}
+async function doLogin(){const e=document.getElementById('authEmail').value;const p=document.getElementById('authPass').value;const {error}=await supa.auth.signInWithPassword({email:e,password:p});document.getElementById('authMsg').innerText=error?error.message:'✅ Logged in';if(!error){toggleAuth();checkUser()}}
+async function doLogout(){await supa.auth.signOut();checkUser();document.getElementById('authBtn').innerText='Login';document.getElementById('authBtn').onclick=toggleAuth}
+function addTrack(){const t=document.getElementById('trackTitle').value;const l=document.getElementById('trackLink').value;if(!t)return;tracks.push({title:t,link:l});document.getElementById('tracksList').innerHTML=tracks.map(x=>`<div style="background:#111;padding:8px;border-radius:8px;margin:4px 0">🎵 ${x.title}</div>`).join('');document.getElementById('trackTitle').value='';document.getElementById('trackLink').value=''}
+async function saveEPK(){if(!supa){alert('Save correct keys first');return}const h=document.getElementById('handle').value.toLowerCase().replace(/\s+/g,'');const n=document.getElementById('name').value;if(!h||!n){alert('Name + Handle needed');return}const payload={handle:h,name:n,city:document.getElementById('city').value,genre:document.getElementById('genre').value,bio:document.getElementById('bio').value,spotify:document.getElementById('spotify').value,tracks:tracks,user_id:currentUser?currentUser.id:null};try{const {error}=await supa.from('artists').upsert(payload,{onConflict:'handle'});if(error)throw error;const link=location.origin+'/?p='+h;document.getElementById('saveMsg').style.display='block';document.getElementById('saveMsg').innerHTML=`✅ LIVE! <a href='${link}' target='_blank'>${link}</a>`}catch(e){alert('Failed: '+e.message+'\n\nFIX: Go Supabase → SQL Editor → New Query → Run:\ncreate policy "allow all" on artists for all using (true) with check (true);')}}
+async function loadRoster(){if(!supa)initSupa();const {data}=await supa.from('artists').select('handle,name,city').limit(20);document.getElementById('rosterBox').style.display='block';document.getElementById('rosterList').innerHTML=data.map(a=>`<div style="display:flex;justify-content:space-between;background:#000;padding:10px;border-radius:8px;margin:4px 0"><span>${a.name}</span><a href='?p=${a.handle}' style="color:#00FF88">/${a.handle}</a></div>`).join('')}
 </script>
 </body>
 </html>
