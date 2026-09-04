@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PL4GU3 V4.2 - Fixed Tabs</title>
+<title>PL4GU3 V5 - Full Sections Fixed Tabs</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
@@ -11,6 +11,8 @@ body{font-family:Inter;background:#040D06;color:#E8F5EC}
 .g{font-family:Space Grotesk}
 .active-tab{background:#00FF88!important;color:#000!important;font-weight:700!important;box-shadow:0 0 15px rgba(0,255,136,0.4)}
 .inactive-tab{background:#0E1E14!important;border:1px solid #1A3A24;color:#8BA89A}
+.card{background:#0E1E14;border:1px solid #1A3A24;border-radius:20px;padding:20px}
+.input{background:#000;border:1px solid #1F2E26;border-radius:12px;padding:12px;color:#fff;font-size:13px;width:100%}
 </style>
 </head>
 <body>
@@ -18,84 +20,91 @@ body{font-family:Inter;background:#040D06;color:#E8F5EC}
 <div class="max-w-[1400px] mx-auto flex flex-wrap gap-2 items-center justify-between">
 <div class="flex items-center gap-2"><div class="w-9 h-9 rounded-full bg-[#00FF88] flex items-center justify-center font-bold text-black g">P</div><span class="font-bold g">PL4GU3 <span class="text-[#00FF88]">Panda</span></span></div>
 <div class="flex gap-2 flex-wrap">
-<button onclick="switchTab('dashboard')" id="btn-dashboard" class="active-tab px-5 py-2.5 rounded-full text-[12px]">Dashboard</button>
-<button onclick="switchTab('submissions')" id="btn-submissions" class="inactive-tab px-5 py-2.5 rounded-full text-[12px]">Submissions</button>
-<button onclick="switchTab('playlists')" id="btn-playlists" class="inactive-tab px-5 py-2.5 rounded-full text-[12px]">Playlists</button>
-<button onclick="switchTab('artists')" id="btn-artists" class="inactive-tab px-5 py-2.5 rounded-full text-[12px]">EPK Builder</button>
-<button onclick="switchTab('analytics')" id="btn-analytics" class="inactive-tab px-5 py-2.5 rounded-full text-[12px]">Analytics</button>
-<button onclick="switchTab('pr')" id="btn-pr" class="inactive-tab px-5 py-2.5 rounded-full text-[12px]">PR Tools</button>
+<button onclick="switchTab('dashboard')" id="btn-dashboard" class="active-tab px-4 py-2 rounded-full text-[11px]">Dashboard</button>
+<button onclick="switchTab('submissions')" id="btn-submissions" class="inactive-tab px-4 py-2 rounded-full text-[11px]">Submissions</button>
+<button onclick="switchTab('playlists')" id="btn-playlists" class="inactive-tab px-4 py-2 rounded-full text-[11px]">Playlists</button>
+<button onclick="switchTab('artists')" id="btn-artists" class="inactive-tab px-4 py-2 rounded-full text-[11px]">EPK Builder</button>
+<button onclick="switchTab('analytics')" id="btn-analytics" class="inactive-tab px-4 py-2 rounded-full text-[11px]">Analytics</button>
+<button onclick="switchTab('pr')" id="btn-pr" class="inactive-tab px-4 py-2 rounded-full text-[11px]">PR Tools</button>
 </div>
-<div class="flex gap-2 items-center"><a href="https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg" target="_blank" class="px-3 py-2 rounded-full bg-[#0E1E14] border border-[#00FF88]/30 text-[11px] text-[#00FF88]">Panda ↗</a><button id="authBtn" onclick="toggleAuth()" class="px-4 py-2 bg-white text-black rounded-full text-xs font-bold">Login</button></div>
+<div class="flex gap-2"><a href="https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg" target="_blank" class="px-3 py-2 rounded-full bg-[#0E1E14] border border-[#00FF88]/30 text-[11px] text-[#00FF88]">Panda ↗</a><button onclick="toggleAuth()" class="px-4 py-2 bg-white text-black rounded-full text-[11px] font-bold">Login</button></div>
 </div>
 </header>
-<div id="authModal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"><div class="bg-[#0E1E14] border border-[#1A3A24] rounded-2xl p-6 w-full max-w-sm"><h3 class="g font-bold">Login</h3><input id="authEmail" placeholder="Email" class="w-full mt-3 p-3 bg-black rounded-xl border border-zinc-800 text-sm"><input id="authPass" type="password" placeholder="Password" class="w-full mt-3 p-3 bg-black rounded-xl border border-zinc-800 text-sm"><div class="flex gap-2 mt-4"><button onclick="doSignup()" class="flex-1 py-3 bg-zinc-800 rounded-xl text-sm">Sign Up</button><button onclick="doLogin()" class="flex-1 py-3 bg-[#00FF88] text-black rounded-xl font-bold text-sm">Login</button></div><button onclick="toggleAuth()" class="w-full mt-3 text-xs text-zinc-500">Close</button><p id="authMsg" class="mt-3 text-xs text-[#00FF88]"></p></div></div>
+<div id="authModal" class="hidden fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"><div class="card max-w-sm w-full"><h3 class="g font-bold">Login</h3><input id="authEmail" class="input mt-3" placeholder="Email"><input id="authPass" type="password" class="input mt-2" placeholder="Password"><div class="flex gap-2 mt-4"><button onclick="doSignup()" class="flex-1 py-3 bg-zinc-800 rounded-xl text-xs">Sign Up</button><button onclick="doLogin()" class="flex-1 py-3 bg-[#00FF88] text-black rounded-xl font-bold text-xs">Login</button></div><button onclick="toggleAuth()" class="w-full mt-3 text-[11px] text-zinc-500">Close</button><p id="authMsg" class="mt-2 text-[11px] text-[#00FF88]"></p></div></div>
 <main class="max-w-[1400px] mx-auto p-4">
-<div class="mb-4 p-3 bg-[#0E1E14] border border-[#1A3A24] rounded-2xl flex gap-2 flex-wrap"><input id="supaUrl" placeholder="https://clyyg...supabase.co" class="flex-1 min-w-[200px] p-2 bg-black rounded-lg border border-zinc-800 text-xs"><input id="supaKey" placeholder="eyJ..." class="flex-1 min-w-[200px] p-2 bg-black rounded-lg border border-zinc-800 text-xs"><button onclick="saveKeys()" class="px-4 py-2 bg-[#00FF88] text-black rounded-lg text-xs font-bold">Save & Connect</button><span id="keyStatus" class="text-[10px] text-zinc-500">Use legacy eyJ key</span></div>
-<div id="tab-dashboard" class="tab-view"><div class="bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-6"><h2 class="g text-2xl font-bold">Welcome back, Chaody ✓</h2><p class="text-sm text-zinc-400 mt-2">192 pts this month • 0 Pending • 10 Reviewed • 100% Acceptance • 11h Avg Response</p><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-6"><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[11px] text-zinc-500">Points</p><p class="text-3xl font-bold g mt-1">192 pts</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[11px] text-zinc-500">Pending</p><p class="text-3xl font-bold g mt-1">0</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[11px] text-zinc-500">Reviewed</p><p class="text-3xl font-bold g mt-1">10</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[11px] text-zinc-500">Acceptance</p><p class="text-3xl font-bold g mt-1 text-[#00FF88]">100%</p></div></div></div></div>
+<div class="mb-4 card p-3 flex gap-2 flex-wrap"><input id="supaUrl" class="input flex-1 min-w-[200px]" placeholder="https://xxxx.supabase.co"><input id="supaKey" class="input flex-1 min-w-[200px]" placeholder="eyJ legacy anon key"><button onclick="saveKeys()" class="px-4 py-2 bg-[#00FF88] text-black rounded-lg text-xs font-bold">Save & Connect</button><span id="keyStatus" class="text-[10px] text-zinc-500 self-center">Use legacy eyJ key</span></div>
+<div id="tab-dashboard" class="tab-view" style="display:block">
+<div class="card">
+<h2 class="g text-2xl font-bold">Welcome back, Chaody ✓</h2><p class="text-[13px] text-zinc-400 mt-2">Review submissions, manage playlists, and grow your earnings. You are fully live.</p>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5">
+<div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Your points this month</p><p class="text-3xl font-bold g mt-1">192 <span class="text-[14px]">pts</span></p><p class="text-[10px] text-zinc-500 mt-1">Payout on 1st once it clears minimum</p></div>
+<div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Pending Submissions</p><p class="text-3xl font-bold g mt-1">0</p><p class="text-[10px] text-[#00FF88]">You're caught up!</p></div>
+<div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Total Reviewed</p><p class="text-3xl font-bold g mt-1">10</p></div>
+<div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Acceptance Rate</p><p class="text-3xl font-bold g mt-1 text-[#00FF88]">100%</p><p class="text-[10px] text-zinc-500">Avg Response 11h</p></div>
+</div>
+</div>
+</div>
 
-<div id="tab-submissions" class="tab-view hidden"><div class="flex gap-2 mb-4"><button onclick="switchSubTab('free')" id="btn-sub-free" class="px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-xs">FREE + Streaming Tasks</button><button onclick="switchSubTab('panda')" id="btn-sub-panda" class="px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-xs text-zinc-400">Panda Pro - playlistpanda.com/c/chaody</button></div><div id="sub-free-view" class="bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-5"><h3 class="g font-bold">Free Playlist - Tasks Required</h3><div class="grid md:grid-cols-3 gap-3 mt-4"><div class="p-4 bg-black border border-[#1A3A24] rounded-xl"><p class="text-[10px] text-zinc-500">TASK 1</p><p class="font-bold text-sm mt-1">Follow Playlist</p></div><div class="p-4 bg-black border border-[#1A3A24] rounded-xl"><p class="text-[10px] text-zinc-500">TASK 2</p><p class="font-bold text-sm mt-1">Save + Screenshot</p></div><div class="p-4 bg-black border border-[#1A3A24] rounded-xl"><p class="text-[10px] text-zinc-500">TASK 3</p><p class="font-bold text-sm mt-1">Share Story @PL4GU3</p></div></div></div><div id="sub-panda-view" class="hidden bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-5"><h3 class="g font-bold">PlaylistPanda Pro - Connected</h3><p class="text-xs text-zinc-400 mt-1">Share: https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg (+25 pts)</p><div class="mt-4 h-[600px] rounded-xl overflow-hidden border border-[#1A3A24] bg-black"><iframe src="https://playlistpanda.com/c/chaody" class="w-full h-full"></iframe></div></div></div>
-
-<div id="tab-playlists" class="tab-view hidden"><h2 class="g text-xl font-bold">My Playlists - 3 Verified Live</h2><div id="playlistsList" class="mt-4 space-y-3"></div></div>
-
-<div id="tab-artists" class="tab-view hidden grid lg:grid-cols-2 gap-6"><div class="bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-6"><input id="name" placeholder="Artist Name * Chaody" class="w-full mb-3 p-3 bg-black rounded-xl border border-zinc-800 text-sm"><input id="handle" placeholder="Handle * yoda" class="w-full mb-3 p-3 bg-black rounded-xl border border-zinc-800 text-sm"><div class="grid grid-cols-2 gap-3"><input id="city" placeholder="City" class="p-3 bg-black rounded-xl border border-zinc-800 text-sm"><select id="genre" class="p-3 bg-black rounded-xl border border-zinc-800 text-sm"><option>Hip-hop</option><option>Amapiano</option><option>Afrobeat</option></select></div><textarea id="bio" placeholder="Bio" class="w-full mt-3 p-3 bg-black rounded-xl border border-zinc-800 h-20 text-sm"></textarea><input id="trackTitle" placeholder="Track Title" class="w-full mt-3 p-3 bg-black rounded-xl border border-zinc-800 text-sm"><input id="trackLink" placeholder="Spotify Link" class="w-full mt-2 p-3 bg-black rounded-xl border border-zinc-800 text-sm"><button onclick="addTrack()" class="w-full mt-2 py-2 bg-zinc-800 rounded-xl text-sm">+ Add Track</button><div id="tracksList" class="mt-3 space-y-2"></div><button onclick="saveEPK()" class="mt-6 w-full
+<div id="tab-submissions" class="tab-view" style="display:none">
+<div class="flex gap-2 mb-4"><button onclick="switchSubTab('free')" id="btn-sub-free" class="px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-[11px]">FREE + Streaming Tasks</button><button onclick="switchSubTab('panda')" id="btn-sub-panda" class="px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[11px] text-zinc-400">Panda Pro - playlistpanda.com/c/chaody</button></div>
+<div id="sub-free-view" class="space-y-4">
+<div class="card"><h3 class="g font-bold">Artist Submission - Fill in your details</h3>
+<div class="grid md:grid-cols-2 gap-3 mt-4">
+<input id="sub-name" class="input" placeholder="Artist Name * e.g. Chaody"><input id="sub-track" class="input" placeholder="Track Title *">
+<input id="sub-link" class="input" placeholder="Spotify Link *"><input id="sub-ig" class="input" placeholder="Instagram Handle @">
+<input id="sub-city" class="input" placeholder="City"><select id="sub-genre" class="input"><option>Hip-hop</option><option>Amapiano</option><option>Afrobeat</option><option>House</option></select>
+</div>
+<div class="grid md:grid-cols-3 gap-3 mt-4">
+<div class="p-3 bg-black border border-[#1A3A24] rounded-xl"><p class="text-[9px] text-zinc-500">TASK REQUIRED</p><p class="font-bold text-[12px] mt-1">1. Follow Playlist</p><label class="flex gap-2 mt-2 text-[11px]"><input type="checkbox" id="task1"> Done</label></div>
+<div class="p-3 bg-black border border-[#1A3A24] rounded-xl"><p class="text-[9px] text-zinc-500">TASK REQUIRED</p><p class="font-bold text-[12px] mt-1">2. Save + Screenshot</p><label class="flex gap-2 mt-2 text-[11px]"><input type="checkbox" id="task2"> Uploaded</label></div>
+<div class="p-3 bg-black border border-[#1A3A24] rounded-xl"><p class="text-[9px] text-zinc-500">TASK REQUIRED</p><p class="font-bold text-[12px] mt-1">3. Share Story @PL4GU3</p><label class="flex gap-2 mt-2 text-[11px]"><input type="checkbox" id="task3"> Shared</label></div>
+</div>
+<button onclick="submitFree()" class="mt-4 w-full bg-[#00FF88] text-black font-bold py-3 rounded-xl text-sm">Submit for Review →</button><p id="sub-msg" class="text-[11px] text-[#00FF88] mt-2"></p>
+</div>
+<div class="card"><h4 class="font-bold text-sm">Pending Submissions</h4><div id="pendingList" class="mt-3 text-[11px] text-zinc-500">No pending - example: DotySantana - Club (Approved)</div></div>
+</div>
+<div id="sub-panda-view" style="display:none"><div class="card"><h3 class="g font-bold">PlaylistPanda Pro - Connected</h3><p class="text-[11px] text-zinc-400 mt-1">Referral: https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg (+25 pts)</p><a href="https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg" target="_blank" class="mt-4 inline-block px-4 py-2 bg-[#00FF88] text-black
 Playlist Panda
 Chaody — Curator on Playlist Panda
 My name is Chaody, Im an independent playlist curator on the hunt for fresh sounds and undiscovered talent. I build playlists that spotlight artists p...
-bg-[#00FF88] text-black font-bold p-4 rounded-xl">Save & Publish Live →</button><p id="saveMsg" class="hidden mt-4 p-3 bg-[#00FF88]/10 border border-[#00FF88]/30 rounded-xl text-sm text-center text-[#00FF88]"></p></div><div class="bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-6"><h3 id="p-name" class="g text-2xl font-bold">Your Artist</h3><p id="p-meta" class="text-[#00FF88] text-sm">City • Genre</p><p id="p-bio" class="text-sm text-zinc-400 mt-3">Bio...</p><div id="p-tracks" class="mt-4 space-y-2"></div><p class="text-xs mt-4">Live: <span id="p-handle" class="text-[#00FF88]">handle</span></p><p id="p-fullLink" class="text-xs text-[#00FF88] break-all"></p><div class="mt-6"><h4 class="g font-bold">Roster</h4><div id="rosterList" class="mt-2 space-y-2"></div><button onclick="loadRoster()" class="mt-2 w-full py-2 bg-black border border-[#1A3A24] rounded-full text-xs">Refresh</button></div></div></div>
+rounded-full text-[11px] font-bold">Open Panda Profile ↗</a></div><div class="card p-0 overflow-hidden mt-4"><iframe src="https://playlistpanda.com/c/chaody" class="w-full h-[600px] bg-black"></iframe></div></div>
+</div>
 
-<div id="tab-analytics" class="tab-view hidden"><div class="bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-6"><h3 class="g font-bold">Analytics - 192 pts, 10 Reviewed, 100%, 11h avg</h3></div></div>
-<div id="tab-pr" class="tab-view hidden"><div class="bg-[#0E1E14] border border-[#1A3A24] rounded-[20px] p-6"><h3 class="g font-bold">PR Toolkit - All PR work in one app</h3><textarea class="w-full mt-4 p-3 bg-black border border-[#1A3A24] rounded-xl h-40 text-xs">Hi [Curator], I'm Chaody from PL4GU3. EPK: pl4gu3.vercel.app/?p=yoda Panda: https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg</textarea></div></div>
+<div id="tab-playlists" class="tab-view" style="display:none"><h2 class="g text-xl font-bold">My Playlists - 3 Verified Live</h2><div id="playlistsList" class="mt-4 space-y-3"></div><div class="card mt-6"><h3 class="g font-bold text-sm">Add / Edit Playlist - Fill in details</h3><div class="grid md:grid-cols-2 gap-3 mt-4"><input id="pl-name" class="input" placeholder="Playlist Name *"><input id="pl-link" class="input" placeholder="Spotify Link *"><input id="pl-followers" class="input" placeholder="Followers e.g. 187"><input id="pl-genre" class="input" placeholder="Genre"></div><button onclick="addPlaylist()" class="mt-3 w-full bg-[#0E1E14] border border-[#1A3A24] py-3 rounded-xl text-xs">Save Playlist</button></div></div>
+
+<div id="tab-artists" class="tab-view" style="display:none"><div class="grid lg:grid-cols-2 gap-6"><div class="card"><h3 class="g font-bold">EPK Builder - Artist fills their details</h3><div class="mt-4 space-y-3"><input id="name" class="input" placeholder="Artist Name *"><input id="handle" class="input" placeholder="Handle * e.g. yoda"><div class="grid grid-cols-2 gap-3"><input id="city" class="input" placeholder="City"><select id="genre" class="input"><option>Hip-hop</option><option>Amapiano</option><option>Afrobeat</option><option>House</option></select></div><textarea id="bio" class="input h-20" placeholder="Bio"></textarea><input id="trackTitle" class="input" placeholder="Track Title"><input id="trackLink" class="input" placeholder="Spotify Link"><button onclick="addTrack()" class="w-full py-2 bg-zinc-800 rounded-xl text-xs">+ Add Track</button><div id="tracksList" class="space-y-2"></div><button onclick="saveEPK()" class="w-full bg-[#00FF88] text-black font-bold py-4 rounded-xl mt-4">Save & Publish Live →</button><p id="saveMsg" class="hidden mt-3 p-3 bg-[#00FF88]/10 border border-[#00FF88]/30 rounded-xl text-[11px] text-[#00FF88] text-center"></p></div></div><div class="card"><h3 id="p-name" class="g text-2xl font-bold">Your Artist</h3><p id="p-meta" class="text-[#00FF88] text-[12px] mt-1">City • Genre</p><p id="p-bio" class="text-[12px] text-zinc-400 mt-3">Bio preview...</p><div id="p-tracks" class="mt-4 space-y-2"></div><p class="text-[11px] mt-4">Live URL: <span id="p-handle" class="text-[#00FF88]">handle</span></p><p id="p-fullLink" class="text-[10px] text-[#00FF88] break-all mt-1"></p><div class="mt-6 border-t border-[#1A3A24] pt-4"><h4 class="g font-bold text-sm">Roster</h4><div id="rosterList" class="mt-2 space-y-2 text-[11px]"></div><button onclick="loadRoster()" class="mt-2 w-full py-2 bg-black border border-[#1A3A24] rounded-full text-[11px]">Refresh Roster</button></div></div></div></div>
+
+<div id="tab-analytics" class="tab-view" style="display:none"><div class="card"><h3 class="g font-bold">Analytics - Earnings, Acceptance, Response</h3><div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-5"><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Submissions</p><p class="text-2xl font-bold g">10</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Earnings</p><p class="text-2xl font-bold g">$0.00</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Acceptance</p><p class="text-2xl font-bold g text-[#00FF88]">100%</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Avg Response</p><p class="text-2xl font-bold g">11h</p></div></div></div></div>
+
+<div id="tab-pr" class="tab-view" style="display:none"><div class="card"><h3 class="g font-bold">PR Toolkit - All PR work in one app</h3><div class="grid md:grid-cols-2 gap-6 mt-5"><div><textarea id="pr-pitch" class="input h-48">Hi [Curator], I'm Chaody from PL4GU3. My track fits your playlist.
+Playlist Panda
+Chaody — Curator on Playlist Panda
+My name is Chaody, Im an independent playlist curator on the hunt for fresh sounds and undiscovered talent. I build playlists that spotlight artists p...
+EPK: pl4gu3.vercel.app/?p=yoda Panda: https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg</textarea><button onclick="copyPitch()" class="mt-2 w-full py-2 bg-[#0E1E14] border border-[#1A3A24] rounded-full text-[11px]">Copy Pitch</button></div><div><div class="bg-black border border-[#1A3A24] rounded-xl p-3"><p class="text-[10px] text-zinc-500">Your Shareable Links</p><p class="text-[10px] text-[#00FF88] mt-2">EPK: pl4gu3.vercel.app/?p=<span id="share-handle">yoda</span></p><p class="text-[10px] text-[#00FF88] mt-1 break-all">Panda: playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg</p></div></div></div></div></div>
 </main>
+
 <script>
-let tracks=[],supa=null;
+let tracks=[],supa=null,playlists=[{name:'Fanatic Daily Playlist',f:'187',t:'28',g:'Hip-Hop / Amapiano',v:'Verified'},{name:'Street Vibes Weekly',f:'245',t:'32',g:'Amapiano',v:'Verified'},{name:'Amapiano Nights',f:'145',t:'18',g:'Amapiano',v:'Verified'}];
 function getKeys(){return{url:localStorage.getItem('pl4gu3_url')document.getElementById('supaUrl').value,key:localStorage.getItem('pl4gu3_key')document.getElementById('supaKey').value}}
 function initSupa(){const {url,key}=getKeys();if(url&&key&&url.includes('supabase.co')){try{supa=window.supabase.createClient(url,key);document.getElementById('keyStatus').innerText='✅ Connected';renderPlaylists();}catch(e){}}}
-function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved!')}
-window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
-function switchTab(name){document.querySelectorAll('.tab-view').forEach(el=>el.classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');document.querySelectorAll('[id^="btn-"]').forEach(btn=>{if(btn.id.startsWith('btn-sub-'))return;btn.className='inactive-tab px-5 py-2.5 rounded-full text-[12px]';});document.getElementById('btn-'+name).className='active-tab px-5 py-2.5 rounded-full text-[12px]';if(name==='artists')loadRoster();}
-function switchTab(name){
-  console.log('Tab clicked:', name);
-  // Hide all
-  document.querySelectorAll('.tab-view').forEach(el=>{
-    el.classList.add('hidden');
-    el.style.display='none';
-  });
-  // Show target
-  var target = document.getElementById('tab-'+name);
-  if(target){
-    target.classList.remove('hidden');
-    target.style.display='block';
-  }
-  // Update button colors - keep your green theme
-  document.querySelectorAll('[id^="btn-"]').forEach(btn=>{
-    if(btn.id.indexOf('sub-') !== -1) return;
-    btn.style.background='#0E1E14';
-    btn.style.color='#8BA89A';
-    btn.style.border='1px solid #1A3A24';
-    btn.style.fontWeight='400';
-  });
-  var active = document.getElementById('btn-'+name);
-  if(active){
-    active.style.background='#00FF88';
-    active.style.color='#000';
-    active.style.fontWeight='700';
-    active.style.boxShadow='0 0 15px rgba(0,255,136,0.4)';
-  }
-}
-function switchSubTab(t){
-  document.getElementById('sub-free-view').classList.add('hidden');
-  document.getElementById('sub-free-view').style.display='none';
-  document.getElementById('sub-panda-view').classList.add('hidden');
-  document.getElementById('sub-panda-view').style.display='none';
-  const show = document.getElementById('sub-'+t+'-view');
-  if(show){show.classList.remove('hidden'); show.style.display='block';}
-}
+function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved!');}
+window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa();switchTab('dashboard');});
+function switchTab(name){document.querySelectorAll('.tab-view').forEach(el=>{el.classList.add('hidden');el.style.display='none';});const target=document.getElementById('tab-'+name);if(target){target.classList.remove('hidden');target.style.display='block';}document.querySelectorAll('[id^="btn-"]').forEach(btn=>{if(btn.id.includes('sub-')) return;btn.className='inactive-tab px-4 py-2 rounded-full text-[11px]';});const active=document.getElementById('btn-'+name);if(active) active.className='active-tab px-4 py-2 rounded-full text-[11px]';if(name==='artists')loadRoster();}
+function switchSubTab(t){const free=document.getElementById('sub-free-view');const panda=document.getElementById('sub-panda-view');if(free){free.style.display=(t==='free')?'block':'none';}if(panda){panda.style.display=(t==='panda')?'block':'none';}document.getElementById('btn-sub-free').className=(t==='free')?'px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-[11px]':'px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[11px] text-zinc-400';document.getElementById('btn-sub-panda').className=(t==='panda')?'px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-[11px]':'px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[11px] text-zinc-400';}
+function toggleAuth(){document.getElementById('authModal').classList.toggle('hidden')}
 async function doSignup(){const e=document.getElementById('authEmail').value;const p=document.getElementById('authPass').value;const {error}=await supa.auth.signUp({email:e,password:p});document.getElementById('authMsg').innerText=error?error.message:'✅ Check email';}
 async function doLogin(){const e=document.getElementById('authEmail').value;const p=document.getElementById('authPass').value;const {error}=await supa.auth.signInWithPassword({email:e,password:p});document.getElementById('authMsg').innerText=error?error.message:'✅ Logged in';if(!error)toggleAuth();}
-function addTrack(){const t=document.getElementById('trackTitle').value;const l=document.getElementById('trackLink').value;if(!t)return;tracks.push({title:t,link:l});document.getElementById('tracksList').innerHTML=tracks.map(x=><div class='p-2 bg-black rounded-lg border border-[#1A3A24] text-sm'>🎵 ${x.title}</div>).join('');document.getElementById('p-tracks').innerHTML=tracks.map(x=><div class='p-2 bg-black rounded-lg border border-[#1A3A24] text-sm flex justify-between'><span>${x.title}</span><a href='${x.link}' target='_blank' class='text-[#00FF88]'>Play</a></div>).join('');document.getElementById('trackTitle').value='';document.getElementById('trackLink').value='';}
+function addTrack(){const t=document.getElementById('trackTitle').value;const l=document.getElementById('trackLink').value;if(!t)return;tracks.push({title:t,link:l});document.getElementById('tracksList').innerHTML=tracks.map(x=>`<div class='p-2 bg-black rounded-lg border border-[#1A3A24] text-[11px]'>🎵
+Playlist Panda
+Chaody — Curator on Playlist Panda
+My name is Chaody, Im an independent playlist curator on the hunt for fresh sounds and undiscovered talent. I build playlists that spotlight artists p...
+${x.title}</div>).join('');document.getElementById('p-tracks').innerHTML=tracks.map(x=><div class='p-2 bg-black rounded-lg border border-[#1A3A24] text-[11px] flex justify-between'><span>${x.title}</span><a href='${x.link}' target='_blank' class='text-[#00FF88]'>Play</a></div>).join('');document.getElementById('trackTitle').value='';document.getElementById('trackLink').value='';}
 async function saveEPK(){if(!supa){alert('Save keys');return}const h=document.getElementById('handle').value.toLowerCase().replace(/\s+/g,'');const n=document.getElementById('name').value;if(!h||!n){alert('Name+Handle');return}const payload={handle:h,name:n,city:document.getElementById('city').value,genre:document.getElementById('genre').value,bio:document.getElementById('bio').value,tracks:tracks};try{const {error}=await supa.from('artists').upsert(payload,{onConflict:'handle'});if(error)throw error;const link=location.origin+'/?p='+h;document.getElementById('saveMsg').classList.remove('hidden');document.getElementById('saveMsg').innerHTML=✅ LIVE! <a href='${link}' target='_blank'>${link}</a>;document.getElementById('p-fullLink').innerText=link;loadRoster()}catch(e){alert('Failed: '+e.message)}}
-async function loadRoster(){if(!supa)return;const {data}=await supa.from('artists').select('handle,name,city').limit(20);if(!data)return;document.getElementById('rosterList').innerHTML=data.map(a=><div class='flex justify-between bg-black p-2 rounded-lg border border-[#1A3A24] text-xs'><span>${a.name}</span><a href='?p=${a.handle}' class='text-[#00FF88]'>/${a.handle}</a></div>).join('')}
-function renderPlaylists(){const el=document.getElementById('playlistsList');if(!el)return;el.innerHTML=[{name:'Fanatic Daily Playlist',f:'187',t:'28'},{name:'Street Vibes Weekly',f:'245',t:'32'},{name:'Amapiano Nights',f:'145',t:'18'}].map(p=><div class='bg-[#0E1E14] border border-[#1A3A24] rounded-2xl p-4 flex justify-between'><div><p class='font-bold text-sm'>${p.name}</p><p class='text-xs text-zinc-500'>${p.f} followers • ${p.t} tracks</p></div><span class='text-xs bg-black border border-[#1A3A24] px-3 py-1 rounded-full'>Verified</span></div>).join('')}
+async function loadRoster(){if(!supa)return;const {data}=await supa.from('artists').select('handle,name,city').limit(20);if(!data)return;document.getElementById('rosterList').innerHTML=data.map(a=><div class='flex justify-between bg-black p-2 rounded-lg border border-[#1A3A24]'><span>${a.name}</span><a href='?p=${a.handle}' class='text-[#00FF88]'>/${a.handle}</a></div>).join('')}
+function renderPlaylists(){const el=document.getElementById('playlistsList');if(!el)return;el.innerHTML=playlists.map(p=><div class='card flex justify-between items-center py-4'><div><p class='font-bold text-[13px]'>${p.name} • ${p.v}</p><p class='text-[11px] text-zinc-500'>${p.f} followers • ${p.t} tracks • ${p.g}</p></div><span class='text-[10px] bg-black border border-[#1A3A24] px-3 py-1 rounded-full'>Verified</span></div>`).join('')}
+function addPlaylist(){const name=document.getElementById('pl-name').value;if(!name)return alert('Name needed');playlists.push({name:name,f:document.getElementById('pl-followers').value'0',t:'0',g:document.getElementById('pl-genre').value'Mixed',v:'Pending'});renderPlaylists();}
+function submitFree(){const name=document.getElementById('sub-name').value;const link=document.getElementById('sub-link').value;if(!name!link)return alert('Name + Link required');if(!document.getElementById('task1').checked!document.getElementById('task2').checked||!document.getElementById('task3').checked)return alert('Complete all 3 tasks');document.getElementById('sub-msg').innerText='✅ Submitted!';}
+function copyPitch(){navigator.clipboard.writeText(document.getElementById('pr-pitch').value);alert('Copied!');}
 </script>
 </body>
 </html>
