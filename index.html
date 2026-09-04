@@ -54,18 +54,32 @@ function saveKeys(){const url=document.getElementById('supaUrl').value.trim();co
 window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
 function switchTab(name){document.querySelectorAll('.tab-view').forEach(el=>el.classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');document.querySelectorAll('[id^="btn-"]').forEach(btn=>{if(btn.id.startsWith('btn-sub-'))return;btn.className='inactive-tab px-5 py-2.5 rounded-full text-[12px]';});document.getElementById('btn-'+name).className='active-tab px-5 py-2.5 rounded-full text-[12px]';if(name==='artists')loadRoster();}
 function switchTab(name){
-  document.querySelectorAll('.tab-view').forEach(el=>{el.classList.add('hidden'); el.style.display='none';});
-  const target = document.getElementById('tab-'+name);
-  if(target){target.classList.remove('hidden'); target.style.display='block';}
-  document.querySelectorAll('[id^="btn-"]').forEach(btn=>{
-    if(btn.id.startsWith('btn-sub-')) return;
-    btn.className='inactive-tab px-5 py-2.5 rounded-full text-[12px]';
-    btn.style.background='#0E1E14'; btn.style.color='#8BA89A'; btn.style.border='1px solid #1A3A24';
+  console.log('Tab clicked:', name);
+  // Hide all
+  document.querySelectorAll('.tab-view').forEach(el=>{
+    el.classList.add('hidden');
+    el.style.display='none';
   });
-  const active = document.getElementById('btn-'+name);
+  // Show target
+  var target = document.getElementById('tab-'+name);
+  if(target){
+    target.classList.remove('hidden');
+    target.style.display='block';
+  }
+  // Update button colors - keep your green theme
+  document.querySelectorAll('[id^="btn-"]').forEach(btn=>{
+    if(btn.id.indexOf('sub-') !== -1) return;
+    btn.style.background='#0E1E14';
+    btn.style.color='#8BA89A';
+    btn.style.border='1px solid #1A3A24';
+    btn.style.fontWeight='400';
+  });
+  var active = document.getElementById('btn-'+name);
   if(active){
-    active.className='active-tab px-5 py-2.5 rounded-full text-[12px]';
-    active.style.background='#00FF88'; active.style.color='#000'; active.style.fontWeight='700';
+    active.style.background='#00FF88';
+    active.style.color='#000';
+    active.style.fontWeight='700';
+    active.style.boxShadow='0 0 15px rgba(0,255,136,0.4)';
   }
 }
 function switchSubTab(t){
