@@ -53,8 +53,29 @@ function initSupa(){const {url,key}=getKeys();if(url&&key&&url.includes('supabas
 function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved!')}
 window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
 function switchTab(name){document.querySelectorAll('.tab-view').forEach(el=>el.classList.add('hidden'));document.getElementById('tab-'+name).classList.remove('hidden');document.querySelectorAll('[id^="btn-"]').forEach(btn=>{if(btn.id.startsWith('btn-sub-'))return;btn.className='inactive-tab px-5 py-2.5 rounded-full text-[12px]';});document.getElementById('btn-'+name).className='active-tab px-5 py-2.5 rounded-full text-[12px]';if(name==='artists')loadRoster();}
-function switchSubTab(t){document.getElementById('sub-free-view').classList.add('hidden');document.getElementById('sub-panda-view').classList.add('hidden');document.getElementById('btn-sub-free').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-xs text-zinc-400';document.getElementById('btn-sub-panda').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-xs text-zinc-400';document.getElementById('sub-'+t+'-view').classList.remove('hidden');document.getElementById('btn-sub-'+t).className='px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-xs';}
-function toggleAuth(){document.getElementById('authModal').classList.toggle('hidden')}
+function switchTab(name){
+  document.querySelectorAll('.tab-view').forEach(el=>{el.classList.add('hidden'); el.style.display='none';});
+  const target = document.getElementById('tab-'+name);
+  if(target){target.classList.remove('hidden'); target.style.display='block';}
+  document.querySelectorAll('[id^="btn-"]').forEach(btn=>{
+    if(btn.id.startsWith('btn-sub-')) return;
+    btn.className='inactive-tab px-5 py-2.5 rounded-full text-[12px]';
+    btn.style.background='#0E1E14'; btn.style.color='#8BA89A'; btn.style.border='1px solid #1A3A24';
+  });
+  const active = document.getElementById('btn-'+name);
+  if(active){
+    active.className='active-tab px-5 py-2.5 rounded-full text-[12px]';
+    active.style.background='#00FF88'; active.style.color='#000'; active.style.fontWeight='700';
+  }
+}
+function switchSubTab(t){
+  document.getElementById('sub-free-view').classList.add('hidden');
+  document.getElementById('sub-free-view').style.display='none';
+  document.getElementById('sub-panda-view').classList.add('hidden');
+  document.getElementById('sub-panda-view').style.display='none';
+  const show = document.getElementById('sub-'+t+'-view');
+  if(show){show.classList.remove('hidden'); show.style.display='block';}
+}
 async function doSignup(){const e=document.getElementById('authEmail').value;const p=document.getElementById('authPass').value;const {error}=await supa.auth.signUp({email:e,password:p});document.getElementById('authMsg').innerText=error?error.message:'✅ Check email';}
 async function doLogin(){const e=document.getElementById('authEmail').value;const p=document.getElementById('authPass').value;const {error}=await supa.auth.signInWithPassword({email:e,password:p});document.getElementById('authMsg').innerText=error?error.message:'✅ Logged in';if(!error)toggleAuth();}
 function addTrack(){const t=document.getElementById('trackTitle').value;const l=document.getElementById('trackLink').value;if(!t)return;tracks.push({title:t,link:l});document.getElementById('tracksList').innerHTML=tracks.map(x=><div class='p-2 bg-black rounded-lg border border-[#1A3A24] text-sm'>🎵 ${x.title}</div>).join('');document.getElementById('p-tracks').innerHTML=tracks.map(x=><div class='p-2 bg-black rounded-lg border border-[#1A3A24] text-sm flex justify-between'><span>${x.title}</span><a href='${x.link}' target='_blank' class='text-[#00FF88]'>Play</a></div>).join('');document.getElementById('trackTitle').value='';document.getElementById('trackLink').value='';}
