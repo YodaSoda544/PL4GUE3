@@ -20,14 +20,14 @@ function getKeys(){return{url:localStorage.getItem('pl4gu3_url')document.getElem
 function initSupa(){const {url,key}=getKeys();if(url&&key&&url.includes('supabase.co')){try{supa=window.supabase.createClient(url,key);document.getElementById('keyStatus').innerText='✅ Connected to '+url;checkUser();renderPlaylists()}catch(e){document.getElementById('keyStatus').innerText='❌ '+e.message}}}
 function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();if(!url.includes('supabase.co')||!key.startsWith('eyJ')){alert('Use REAL URL https://clyyg...supabase.co + eyJ... legacy key from Settings → API');return}localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved!')}
 window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
-function setMain(m){
-  const all=['dashboard','submissions','playlists','artists','analytics','pr'];
-  all.forEach(x=>{
-    const v=document.getElementById('view-'+x);
-    if(v) v.classList.add('hidden');
-    const b=document.getElementById('m-'+x);
-    if(b) b.className='px-4 py-2 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[#8BA89A] text-[13px]';
-  });
+function setSubTab(t){
+  document.getElementById('submissions-free').classList.add('hidden');
+  document.getElementById('submissions-panda').classList.add('hidden');
+  document.getElementById('sub-free').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[#8BA89A] text-[13px]';
+  document.getElementById('sub-panda').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[#8BA89A] text-[13px]';
+  document.getElementById('submissions-'+t).classList.remove('hidden');
+  document.getElementById('sub-'+t).className='px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-[13px]';
+}
   const show=document.getElementById('view-'+m);
   if(show) show.classList.remove('hidden');
   const active=document.getElementById('m-'+m);
