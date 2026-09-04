@@ -20,19 +20,30 @@ function getKeys(){return{url:localStorage.getItem('pl4gu3_url')document.getElem
 function initSupa(){const {url,key}=getKeys();if(url&&key&&url.includes('supabase.co')){try{supa=window.supabase.createClient(url,key);document.getElementById('keyStatus').innerText='✅ Connected to '+url;checkUser();renderPlaylists()}catch(e){document.getElementById('keyStatus').innerText='❌ '+e.message}}}
 function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();if(!url.includes('supabase.co')||!key.startsWith('eyJ')){alert('Use REAL URL https://clyyg...supabase.co + eyJ... legacy key from Settings → API');return}localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved!')}
 window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
-function setSubTab(t){
-  document.getElementById('submissions-free').classList.add('hidden');
-  document.getElementById('submissions-panda').classList.add('hidden');
-  document.getElementById('sub-free').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[#8BA89A] text-[13px]';
-  document.getElementById('sub-panda').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-[#8BA89A] text-[13px]';
-  document.getElementById('submissions-'+t).classList.remove('hidden');
-  document.getElementById('sub-'+t).className='px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-[13px]';
+<script>
+let tracks=[],supa=null,currentUser=null;
+function getKeys(){return{url:localStorage.getItem('pl4gu3_url')document.getElementById('supaUrl').value,key:localStorage.getItem('pl4gu3_key')document.getElementById('supaKey').value}}
+function initSupa(){const {url,key}=getKeys();if(url&&key&&url.includes('supabase.co')){try{supa=window.supabase.createClient(url,key);document.getElementById('keyStatus').innerText='✅ Connected';renderPlaylists()}catch(e){}}}
+function saveKeys(){const url=document.getElementById('supaUrl').value.trim();const key=document.getElementById('supaKey').value.trim();localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);initSupa();alert('Saved!')}
+window.addEventListener('load',()=>{const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');if(u)document.getElementById('supaUrl').value=u;if(k)document.getElementById('supaKey').value=k;initSupa()});
+
+function switchTab(name){
+  document.querySelectorAll('.tab-view').forEach(el=>el.classList.add('hidden'));
+  const target=document.getElementById('tab-'+name);
+  if(target) target.classList.remove('hidden');
+  document.querySelectorAll('[id^="btn-"]').forEach(btn=>{
+    if(btn.id.startsWith('btn-sub-')) return;
+    btn.className='inactive-tab px-5 py-2.5 rounded-full text-[12px]';
+  });
+  const activeBtn=document.getElementById('btn-'+name);
+  if(activeBtn) activeBtn.className='active-tab px-5 py-2.5 rounded-full text-[12px]';
+  if(name==='artists') loadRoster();
 }
-  const show=document.getElementById('view-'+m);
-  if(show) show.classList.remove('hidden');
-  const active=document.getElementById('m-'+m);
-  if(active) active.className='px-4 py-2 rounded-full bg-[#00FF88] text-black font-bold text-[13px]';
-  window.scrollTo(0,0);
+
+function switchSubTab(t){
+  document.getElementById('sub-free-view').classList.add('hidden');
+  document.getElementById('sub-panda-view').classList.add('hidden');
+  document.getElementById('sub-'+t+'-view').classList.remove('hidden');
 }
 function setSubTab(t){document.getElementById('submissions-free').classList.add('hidden');document.getElementById('submissions-panda').classList.add('hidden');document.getElementById('sub-free').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-xs';document.getElementById('sub-panda').className='px-5 py-2.5 rounded-full bg-[#0E1E14] border border-[#1A3A24] text-xs';document.getElementById('submissions-'+t).classList.remove('hidden');document.getElementById('sub-'+t).className='px-5 py-2.5 rounded-full bg-[#00FF88] text-black font-bold text-xs'}
 function toggleAuth(){const m=document.getElementById('authModal');m.classList.toggle('hidden');m.style.display=m.classList.contains('hidden')?'none':'flex'}
