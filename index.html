@@ -52,7 +52,7 @@ Chaody — Curator on Playlist Panda
 My name is Chaody, Im an independent playlist curator on the hunt for fresh sounds and undiscovered talent. I build playlists that spotlight artists p...
 text-zinc-500">Earnings</p><p class="text-2xl font-bold g">$0</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Acceptance</p><p class="text-2xl font-bold g text-[#00FF88]">100%</p></div><div class="bg-black border border-[#1A3A24] rounded-xl p-4"><p class="text-[10px] text-zinc-500">Avg Response</p><p class="text-2xl font-bold g">11h</p></div></div></div></div>
 <div id="tab-pr" class="tab-panel" style="display:none"><div class="card"><h3 class="g font-bold">PR Toolkit</h3><div class="grid md:grid-cols-2 gap-6 mt-5"><div><textarea class="input h-48">Hi [Curator], I'm Chaody from PL4GU3. EPK: pl4gu3.vercel.app/?p=yoda Panda: https://playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg</textarea></div><div><div class="bg-black border border-[#1A3A24] rounded-xl p-3"><p class="text-[10px] text-zinc-500">Links</p><p class="text-[10px] text-[#00FF88] mt-2">pl4gu3.vercel.app/?p=yoda</p><p class="text-[10px] text-[#00FF88] break-all">playlistpanda.com/c/chaody?ref=cmsbbfcmm000904ibb8ofjzlg</p></div></div></div></div></div>
-</main>
+</main><div class="mb-4 card p-3 flex gap-2 flex-wrap"><input id="supaUrl" class="input flex-1 min-w-[200px]" placeholder="https://xxxx.supabase.co"><input id="supaKey" class="input flex-1 min-w-[200px]" placeholder="eyJ legacy anon key"><button onclick="saveKeys()" class="px-4 py-2 bg-[#00FF88] text-black rounded-lg text-xs font-bold">Save & Connect</button><span id="keyStatus" class="text-[10px] text-zinc-500 self-center">Use legacy eyJ key</span></div>
 <script>
 function switchTab(name){
   var panels=document.querySelectorAll('.tab-panel');
@@ -72,8 +72,26 @@ function switchSub(t){
 }
 window.onload=function(){switchTab('dashboard');}
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script>
+let supa=null;
+function getKeys(){return{url:localStorage.getItem('pl4gu3_url')'',key:localStorage.getItem('pl4gu3_key')''}}
+function saveKeys(){
+  const url=document.getElementById('supaUrl').value.trim();
+  const key=document.getElementById('supaKey').value.trim();
+  if(!url.includes('supabase.co')||!key.startsWith('eyJ')){alert('Use legacy URL https://xxxx.supabase.co + eyJ anon key');return;}
+  localStorage.setItem('pl4gu3_url',url);localStorage.setItem('pl4gu3_key',key);
+  initSupa();
+  alert('Keys saved! Connected');
+}
+function initSupa(){
+  const {url,key}=getKeys();
+  const status=document.getElementById('keyStatus');
+  if(url&&key&&url.includes('supabase.co')&&window.supabase){
+    try{supa=window.supabase.createClient(url,key);if(status)status.innerText='✅ Connected '+url.slice(8,25);}catch(e){if(status)status.innerText='❌ '+e.message;}
+  }
+}
+(function(){const u=localStorage.getItem('pl4gu3_url');const k=localStorage.getItem('pl4gu3_key');const urlEl=document.getElementById('supaUrl');const keyEl=document.getElementById('supaKey');if(u&&urlEl)urlEl.value=u;if(k&&keyEl)keyEl.value=k;initSupa();})();
+</script>
 </body>
 </html>
-Playlist Panda
-Chaody — Curator on Playlist Panda
-My name is Chaody, Im an independent playlist curator on the hunt for fresh sounds and undiscovered talent. I build playlists that spotlight artists p...
